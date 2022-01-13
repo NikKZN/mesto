@@ -1,0 +1,11 @@
+.profile__profile-info-item {
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+}
+
+@media screen and (max-width: 800px) {
+  .profile__profile-info-item:not(:last-child) {
+    margin-top: 26px;
+  }
+}
