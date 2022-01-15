@@ -9,11 +9,12 @@
 </head>
 <body class="body">
   <div class="page">
+    
     <header class="header page__header">
       <img class="header__logo" src="./images/header/header-logo.svg" alt="">
       <hr class="header__line">
     </header>
-
+    
     <main class="content">
       <section class="profile content__profile">
         <div class="profile__box">
@@ -27,6 +28,18 @@
           </ul>
         </div>
         <button class="profile__add-button"><img src="./images/profile/add-button.svg" alt=""></button>
+      </section>
+
+      <section class="popup">
+        <div class="popup__container">
+          <form class="popup__form">
+            <button class="popup__button-close"><img src="./images/popup/Close Icon.png"></button>
+            <h2 class="popup__title">Редактировать профиль</h2>
+            <input class="popup__input-name" type="text" value="Жак-Ив Кусто">
+            <input class="popup__input-position" type="text" value="Исследователь океана">
+            <button class="popup__button-save">Сохранить</button>
+          </form>
+        </div>
       </section>
 
       <section class="elements content__elements">
@@ -80,6 +93,8 @@
     <footer class="footer page__footer">
       <p class="footer__copyright">&copy; 2022 Николай Петровский</p>
     </footer>
+ 
   </div>
+  <script src="./scripts/index.js"></script>
 </body>
 </html>
