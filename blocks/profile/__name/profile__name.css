@@ -1,4 +1,4 @@
-.profile__profile-name {
+.profile__name {
   font-weight: 500;
   font-size: 42px;
   line-height: 48px;
@@ -9,8 +9,8 @@
   overflow: hidden;
 }
 
-@media screen and (max-width: 550px) {
-  .profile__profile-name {
+@media screen and (max-width: 800px) {
+  .profile__name {
     font-size: 27px;
     line-height: 33px;
     max-width: 190px;
