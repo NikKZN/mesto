@@ -6,6 +6,7 @@ let closeProfileInfoButton = page.querySelector('.popup__button-close');
 let popupOpen = page.querySelector('.popup_type_profile');
 
 
+
 function formSubmitHandler (evt) {
     evt.preventDefault(); 
     let userName = page.querySelector('.popup__input-name').value;
