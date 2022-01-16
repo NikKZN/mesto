@@ -18,5 +18,5 @@
 }
 
 .element__caption-like:active {
-  background-image: url(../../../../images/elements/like-active.svg);
+  background-image: url(../../../images/elements/like-active.svg);
 }
