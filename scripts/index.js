@@ -13,17 +13,21 @@ function formSubmitHandler (evt) {
     evt.preventDefault(); 
     profileName.textContent = userName.value;
     profileJob.textContent = userJob.value;
-    popupOpen.classList.remove('popup_opened'); 
+    closePopup () 
 }
 
-formElement.addEventListener('submit', formSubmitHandler);
-
 function openPopup () {
-    popupOpen.classList.toggle('popup_opened');
+    popupOpen.classList.add('popup_opened');
     userName.value = profileName.textContent;
     userJob.value = profileJob.textContent;
 }
 
-closeProfileInfoButton.addEventListener('click', openPopup);
+function closePopup () {
+    popupOpen.classList.remove('popup_opened'); 
+}
 
 editProfileInfoButton.addEventListener('click', openPopup);
+
+closeProfileInfoButton.addEventListener('click', closePopup);
+
+formElement.addEventListener('submit', formSubmitHandler);
