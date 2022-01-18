@@ -11,6 +11,7 @@
   background-color: transparent;
   background-size: cover;
   transition: opacity 0.3s ease;
+  cursor: pointer;
 }
 
 .element__caption-like:hover {
