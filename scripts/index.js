@@ -9,8 +9,8 @@ let popupOpen = page.querySelector('.popup_type_profile');
 
 function formSubmitHandler (evt) {
     evt.preventDefault(); 
-    let userName = page.querySelector('.popup__input-name').value;
-    let userJob = page.querySelector('.popup__input-job').value;
+    let userName = page.querySelector('.popup__input_field_name').value;
+    let userJob = page.querySelector('.popup__input_field_job').value;
     let profileName = document.querySelector('.profile__name');
     let profileJob = document.querySelector('.profile__job');
     profileName.textContent = userName;
