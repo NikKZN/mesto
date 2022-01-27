@@ -11,7 +11,38 @@ const userName = popupProfile.querySelector('.popup__input_field_name');
 const userJob = popupProfile.querySelector('.popup__input_field_job');
 const profileName = page.querySelector('.profile__name');
 const profileJob = page.querySelector('.profile__job');
-
+const initialCards = [
+    {
+      name: 'Архыз',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    },
+    {
+      name: 'Челябинская область',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    },
+    {
+      name: 'Иваново',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    },
+    {
+      name: 'Камчатка',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    },
+    {
+      name: 'Холмогорский район',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    },
+    {
+      name: 'Байкал',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    }
+  ];
+  const cardTemplate = page.querySelector('.template');
+  const elementsList = cardTemplate.querySelector('.elements__list');
+  const elementsItem = cardTemplate.querySelector('.elements__item');
+  const elementCard = cardTemplate.querySelector('.element__card');
+  const elementCaptionText = cardTemplate.querySelector('.element__caption-text');
+  const elementCaptionLike = cardTemplate.querySelector('.element__caption-like');
 
 function formSubmitHandlerProfile (evt) {
     evt.preventDefault();
