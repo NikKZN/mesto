@@ -3,6 +3,8 @@ const page = document.querySelector('.page');
 const formElement = page.querySelector('.popup__container');
 const popupProfile = page.querySelector('.popup_type_profile');
 const popupMesto = page.querySelector('.popup_type_mesto');
+const popupImage = page.querySelector('.popup_type_image');
+const closePopapImage = popupImage.querySelector('.popup__button-close');
 const editProfileInfoButton = page.querySelector('.profile__edit-button');
 const closeProfileInfoButton = popupProfile.querySelector('.popup__button-close');
 const addMestoButton = page.querySelector('.profile__add-button');
@@ -37,12 +39,23 @@ const initialCards = [
       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
     }
   ];
-  const cardTemplate = page.querySelector('.template');
-  const elementsList = cardTemplate.querySelector('.elements__list');
-  const elementsItem = cardTemplate.querySelector('.elements__item');
-  const elementCard = cardTemplate.querySelector('.element__card');
-  const elementCaptionText = cardTemplate.querySelector('.element__caption-text');
-  const elementCaptionLike = cardTemplate.querySelector('.element__caption-like');
+/*
+const cardTemplate = page.querySelector('.template');
+const elementsList = cardTemplate.querySelector('.elements__list');
+const elementsItem = cardTemplate.querySelector('.elements__item');
+const elementCard = cardTemplate.querySelector('.element__card');
+const elementCaptionText = cardTemplate.querySelector('.element__caption-text');
+const elementCaptionLike = cardTemplate.querySelector('.element__caption-like');
+ */
+const elementCard = page.querySelector('.element__card');
+const elementCaptionText = page.querySelector('.element__caption-text');
+
+function openImage() {
+  openPopup(popupImage);
+  elementCard.src = item.link;
+  elementCard.alt = item.name;
+  elementCaptionText.textContent = item.name;
+}  
 
 function formSubmitHandlerProfile (evt) {
     evt.preventDefault();
@@ -76,6 +89,8 @@ editProfileInfoButton.addEventListener('click', openPopupProfile);
 closeProfileInfoButton.addEventListener('click', () => close(popupProfile));
 addMestoButton.addEventListener('click', () => open(popupMesto));
 popupCloseMesto.addEventListener('click', () => close(popupMesto));
+elementCard.addEventListener('click', () => open(popupImage));
+closePopapImage.addEventListener('click', () => close(popupImage));
 
 formElement.addEventListener('submit', formSubmitHandlerProfile);
 formElement.addEventListener('submit', formSubmitHandlerMesto);
