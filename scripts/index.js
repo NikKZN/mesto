@@ -61,6 +61,11 @@ function renderItem(item) {
     popupImage.querySelector('.popup__image').alt = item.name;
     popupImage.querySelector('.popup__caption').textContent = item.name;
   });
+  //------Ставим/убираем лайк
+  const likeButtonCard = newItem.querySelector('.element__caption-like');
+  likeButtonCard.addEventListener('click', (evt) => {
+    evt.target.classList.toggle('element__caption-like_aktive');
+  });
   //------Удаление карточки
   const deleteButtonCard = newItem.querySelector('.element__trash');
   deleteButtonCard.addEventListener('click', () => {
