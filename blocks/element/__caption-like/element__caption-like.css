@@ -17,7 +17,3 @@
 .element__caption-like:hover {
   opacity: 0.5;
 }
-
-.element__caption-like:active {
-  background-image: url(../../../images/elements/like-active.svg);
-}
