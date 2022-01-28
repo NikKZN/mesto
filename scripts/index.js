@@ -48,18 +48,23 @@ function render() {
 }
 
 function renderItem(item) {
-  //------Клонируем массив и создаём новые елементы
+  //------Клонируем массив и создаём новые карточки
   const newItem = cardTemplate.cloneNode(true);
   newItem.querySelector('.element__caption-text').textContent = item.name;
   const elementCard = newItem.querySelector('.element__card');
   elementCard.src = item.link;
   elementCard.alt = item.name;
-  //------Открытие попапа просмотра
+  //------Открытие попапа просмотра изображения карточки
   elementCard.addEventListener('click', function() { 
     open(popupImage);
     popupImage.querySelector('.popup__image').src = item.link;
     popupImage.querySelector('.popup__image').alt = item.name;
     popupImage.querySelector('.popup__caption').textContent = item.name;
+  });
+  //------Удаление карточки
+  const deleteButtonCard = newItem.querySelector('.element__trash');
+  deleteButtonCard.addEventListener('click', () => {
+    deleteButtonCard.closest('.elements__item').remove();
   });
   //------Добавляем элементы в DOM
   elementsList.append(newItem);
