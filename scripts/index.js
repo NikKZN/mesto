@@ -48,23 +48,22 @@ function render() {
 }
 
 function renderItem(item) {
+  //------Клонируем массив и создаём новые елементы
   const newItem = cardTemplate.cloneNode(true);
   newItem.querySelector('.element__caption-text').textContent = item.name;
-  newItem.querySelector('.element__card').src = item.link;
-  newItem.querySelector('.element__card').alt = item.name;
-  elementsList.append(newItem);
-}
-
-
-const elementCard = page.querySelector('.element__card');
-const elementCaptionText = page.querySelector('.element__caption-text');
-
-function openImage() {
-  openPopup(popupImage);
+  const elementCard = newItem.querySelector('.element__card');
   elementCard.src = item.link;
   elementCard.alt = item.name;
-  elementCaptionText.textContent = item.name;
-}  
+  //------Открытие попапа просмотра
+  elementCard.addEventListener('click', function() { 
+    open(popupImage);
+    popupImage.querySelector('.popup__image').src = item.link;
+    popupImage.querySelector('.popup__image').alt = item.name;
+    popupImage.querySelector('.popup__caption').textContent = item.name;
+  });
+  //------Добавляем элементы в DOM
+  elementsList.append(newItem);
+}
 
 function formSubmitHandlerProfile (evt) {
     evt.preventDefault();
@@ -98,7 +97,6 @@ editProfileInfoButton.addEventListener('click', openPopupProfile);
 closeProfileInfoButton.addEventListener('click', () => close(popupProfile));
 addMestoButton.addEventListener('click', () => open(popupMesto));
 popupCloseMesto.addEventListener('click', () => close(popupMesto));
-//elementCard.addEventListener('click', () => open(popupImage));
 closePopapImage.addEventListener('click', () => close(popupImage));
 
 formElement.addEventListener('submit', formSubmitHandlerProfile);
