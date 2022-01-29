@@ -43,75 +43,74 @@ const initialCards = [
 ];
 
 const cardTemplate = page.querySelector('.template').content; //Находим template
-const elementsList = page.querySelector('.elements__list'); //Находим место вставки
+const listElement = page.querySelector('.elements__list'); //Находим место вставки
 
-function render() {
-  initialCards.forEach(renderItem); //Перебираем массив
-}
-
-function renderItem(item) {
-  //------Клонируем массив и создаём новые карточки
-  const newItem = cardTemplate.cloneNode(true);
-  newItem.querySelector('.element__caption-text').textContent = item.name;
-  const elementCard = newItem.querySelector('.element__card');
-  elementCard.src = item.link;
-  elementCard.alt = item.name;
+initialCards.forEach(function(card) {
+  addCard(listElement, createCard(card.name, card.link));
+});
+//--------Функция создания карточки
+function  createCard(name, link) {
+  const element = cardTemplate.cloneNode(true);
+  element.querySelector('.element__caption-text').textContent = name;
+  const elementCard = element.querySelector('.element__card');
+  elementCard.src = link;
+  elementCard.alt = name;
   //------Открытие попапа просмотра изображения карточки
   elementCard.addEventListener('click', function() { 
-    open(popupImage);
-    popupImage.querySelector('.popup__image').src = item.link;
-    popupImage.querySelector('.popup__image').alt = item.name;
-    popupImage.querySelector('.popup__caption').textContent = item.name;
+    openPopup(popupImage);
+    popupImage.querySelector('.popup__image').src = link;
+    popupImage.querySelector('.popup__image').alt = name;
+    popupImage.querySelector('.popup__caption').textContent = name;
   });
   //------Ставим/убираем лайк
-  const likeButtonCard = newItem.querySelector('.element__caption-like');
+  const likeButtonCard = element.querySelector('.element__caption-like');
   likeButtonCard.addEventListener('click', (evt) => {
     evt.target.classList.toggle('element__caption-like_aktive');
   });
   //------Удаление карточки
-  const deleteButtonCard = newItem.querySelector('.element__trash');
+  const deleteButtonCard = element.querySelector('.element__trash');
   deleteButtonCard.addEventListener('click', () => {
     deleteButtonCard.closest('.elements__item').remove();
   });
-  //------Добавляем элементы в DOM
-  elementsList.prepend(newItem);
+  return element;
+}
+//--------Функция добавления карточки в контейнер
+function addCard(listElement, element) {
+  listElement.prepend(element);
 }
 //--------Форма отправки данных пользователя
 function formSubmitHandlerProfile (evt) {
     evt.preventDefault();
     profileName.textContent = userName.value;
     profileJob.textContent = userJob.value;
-    close(popupProfile);
+    closePopup(popupProfile);
 }
 //--------Форма отправки данных места
 function formSubmitHandlerMesto (evt) {
     evt.preventDefault();
-    renderItem({name: mestoName.value, link: mestoLink.value});
-    mestoName.value = '';
-    mestoLink.value = '';
-    close(popupMesto);
+    addCard(listElement, createCard(mestoName.value, mestoLink.value));
+    popupMesto.querySelector('.popup__form').reset();
+    closePopup(popupMesto);
 }
 //--------Функция открытия попапа профиля
 function openPopupProfile() {
-    open(popupProfile);
+    openPopup(popupProfile);
     userName.value = profileName.textContent;
     userJob.value = profileJob.textContent;
 }
 //--------Функция открытия попапа
-function open(popup) {
+function openPopup(popup) {
     popup.classList.add('popup_opened');
 }
 //--------Функция закрытия попапа
-function close(popup) {
+function closePopup(popup) {
     popup.classList.remove('popup_opened');
 }
-
+//--------Слушатели
 editProfileInfoButton.addEventListener('click', openPopupProfile); //Слушатель открытия попапа профиль
-closeProfileInfoButton.addEventListener('click', () => close(popupProfile)); //Слушатель закрытия попапа профиль
-addMestoButton.addEventListener('click', () => open(popupMesto)); //Слушатель открытия попапа место
-popupCloseMesto.addEventListener('click', () => close(popupMesto)); //Слушатель закрытия попапа место
-closePopapImage.addEventListener('click', () => close(popupImage)); //Слушатель закрытия попапа просмотра изображения карточки
-
+closeProfileInfoButton.addEventListener('click', () => closePopup(popupProfile)); //Слушатель закрытия попапа профиль
+addMestoButton.addEventListener('click', () => openPopup(popupMesto)); //Слушатель открытия попапа место
+popupCloseMesto.addEventListener('click', () => closePopup(popupMesto)); //Слушатель закрытия попапа место
+closePopapImage.addEventListener('click', () => closePopup(popupImage)); //Слушатель закрытия попапа просмотра изображения карточки
 popupProfile.addEventListener('submit', formSubmitHandlerProfile); //Слушатель отправки формы профиль
 popupMesto.addEventListener('submit', formSubmitHandlerMesto); //Слушатель отправки формы место
-render();
