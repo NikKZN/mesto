@@ -101,11 +101,28 @@ function openPopupProfile() {
 //--------Функция открытия попапа
 function openPopup(popup) {
     popup.classList.add('popup_opened');
+    document.addEventListener('keydown', pressEscape);
+    document.addEventListener('click', clickOverlay);
 }
 //--------Функция закрытия попапа
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
+    document.removeEventListener('keydown', pressEscape);
+    document.removeEventListener('click', clickOverlay);
 }
+//--------Функция закрытия попапа клавишей "Escape"
+function pressEscape(evt) {
+  if (evt.key === 'Escape') {
+    closePopup(document.querySelector('.popup_opened'));
+  };
+};
+//--------Функция закрытия попапа кликом на "overlay"
+function clickOverlay(evt) {
+  const popupOpened = document.querySelector('.popup_opened');
+  if (evt.target === popupOpened) {
+    closePopup(popupOpened);
+  };
+};
 //--------Слушатели
 editProfileInfoButton.addEventListener('click', openPopupProfile); //Слушатель открытия попапа профиль
 closeProfileInfoButton.addEventListener('click', () => closePopup(popupProfile)); //Слушатель закрытия попапа профиль
