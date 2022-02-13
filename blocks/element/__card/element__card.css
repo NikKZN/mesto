@@ -5,4 +5,9 @@
   min-height: 282px;
   background-color: gainsboro;
   border-radius: 10px 10px 0px 0px;
+  cursor: pointer;
+}
+
+.element__card:hover {
+  opacity: 0.8;
 }
