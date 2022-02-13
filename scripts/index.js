@@ -1,6 +1,5 @@
 const content = document.querySelector('.content');
 const page = document.querySelector('.page');
-const formElement = page.querySelector('.popup__container');
 const popupProfile = page.querySelector('.popup_type_profile');
 const popupMesto = page.querySelector('.popup_type_mesto');
 const popupImage = page.querySelector('.popup_type_image');
@@ -73,39 +72,56 @@ function  createCard(name, link) {
     deleteButtonCard.closest('.elements__item').remove();
   });
   return element;
-}
+};
 //--------Функция добавления карточки в контейнер
 function addCard(listElement, element) {
   listElement.prepend(element);
-}
+};
 //--------Форма отправки данных пользователя
 function formSubmitHandlerProfile (evt) {
     evt.preventDefault();
     profileName.textContent = userName.value;
     profileJob.textContent = userJob.value;
     closePopup(popupProfile);
-}
+};
 //--------Форма отправки данных места
 function formSubmitHandlerMesto (evt) {
     evt.preventDefault();
     addCard(listElement, createCard(mestoName.value, mestoLink.value));
     popupMesto.querySelector('.popup__form').reset();
     closePopup(popupMesto);
-}
+};
 //--------Функция открытия попапа профиля
 function openPopupProfile() {
     openPopup(popupProfile);
     userName.value = profileName.textContent;
     userJob.value = profileJob.textContent;
-}
+};
 //--------Функция открытия попапа
 function openPopup(popup) {
     popup.classList.add('popup_opened');
-}
+    document.addEventListener('keydown', pressEscape);
+    document.addEventListener('click', clickOverlay);
+};
 //--------Функция закрытия попапа
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
-}
+    document.removeEventListener('keydown', pressEscape);
+    document.removeEventListener('click', clickOverlay);
+};
+//--------Функция закрытия попапа клавишей "Escape"
+function pressEscape(evt) {
+  if (evt.key === 'Escape') {
+    closePopup(document.querySelector('.popup_opened'));
+  };
+};
+//--------Функция закрытия попапа кликом на "overlay"
+function clickOverlay(evt) {
+  const popupOpened = document.querySelector('.popup_opened');
+  if (evt.target === popupOpened) {
+    closePopup(popupOpened);
+  };
+};
 //--------Слушатели
 editProfileInfoButton.addEventListener('click', openPopupProfile); //Слушатель открытия попапа профиль
 closeProfileInfoButton.addEventListener('click', () => closePopup(popupProfile)); //Слушатель закрытия попапа профиль
