@@ -42,7 +42,7 @@ const setEventListeners = (formElement, config) => {
 //--------Функция сброса валидации
 const resetValidation = (config, popupIsOpen) => {
   const inputElement = config.inputSelector;
-  const inputList = Array.from(popupProfileForm.querySelectorAll(inputElement));
+  const inputList = Array.from(popupIsOpen.querySelectorAll(inputElement));
   inputList.forEach((inputElement) => { 
     hideInputError(popupIsOpen, inputElement, config); 
   });
