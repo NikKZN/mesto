@@ -1,7 +1,9 @@
 const content = document.querySelector('.content');
 const page = document.querySelector('.page');
 const popupProfile = page.querySelector('.popup_type_profile');
+const popupProfileForm = popupProfile.querySelector('.popup__form');
 const popupMesto = page.querySelector('.popup_type_mesto');
+const popupMestoForm = popupMesto.querySelector('.popup__form');
 const popupImage = page.querySelector('.popup_type_image');
 const closePopapImage = popupImage.querySelector('.popup__button-close');
 const editProfileInfoButton = page.querySelector('.profile__edit-button');
@@ -14,35 +16,17 @@ const profileName = page.querySelector('.profile__name');
 const profileJob = page.querySelector('.profile__job');
 const mestoName = popupMesto.querySelector('.popup__input_field_mesto');
 const mestoLink = popupMesto.querySelector('.popup__input_field_link');
-const initialCards = [
-    {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
-
 const cardTemplate = page.querySelector('.template').content; //Находим template
 const listElement = page.querySelector('.elements__list'); //Находим место вставки
+const popupMestoButton = popupMesto.querySelector('.popup__button-save');
+const config = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button-save',
+  inactiveButtonClass: 'popup__button-save_inactive',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error_active'
+};
 
 initialCards.forEach(function(card) {
   addCard(listElement, createCard(card.name, card.link));
@@ -57,8 +41,9 @@ function  createCard(name, link) {
   //------Открытие попапа просмотра изображения карточки
   elementCard.addEventListener('click', function() { 
     openPopup(popupImage);
-    popupImage.querySelector('.popup__image').src = link;
-    popupImage.querySelector('.popup__image').alt = name;
+    const imageCard = popupImage.querySelector('.popup__image');
+    imageCard.src = link;
+    imageCard.alt = name;
     popupImage.querySelector('.popup__caption').textContent = name;
   });
   //------Ставим/убираем лайк
@@ -101,13 +86,13 @@ function openPopupProfile() {
 function openPopup(popup) {
     popup.classList.add('popup_opened');
     document.addEventListener('keydown', pressEscape);
-    document.addEventListener('click', clickOverlay);
+    popup.addEventListener('click', clickOverlay);
 };
 //--------Функция закрытия попапа
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
     document.removeEventListener('keydown', pressEscape);
-    document.removeEventListener('click', clickOverlay);
+    popup.removeEventListener('click', clickOverlay);
 };
 //--------Функция закрытия попапа клавишей "Escape"
 function pressEscape(evt) {
@@ -117,15 +102,21 @@ function pressEscape(evt) {
 };
 //--------Функция закрытия попапа кликом на "overlay"
 function clickOverlay(evt) {
-  const popupOpened = document.querySelector('.popup_opened');
-  if (evt.target === popupOpened) {
-    closePopup(popupOpened);
+  if (evt.target === evt.currentTarget) {
+    closePopup(evt.target);
   };
 };
 //--------Слушатели
-editProfileInfoButton.addEventListener('click', openPopupProfile); //Слушатель открытия попапа профиль
+editProfileInfoButton.addEventListener('click', () => { //Слушатель открытия попапа профиль
+  openPopupProfile();
+  enableValidation(config);
+  resetValidation(config, popupProfileForm);
+});
+addMestoButton.addEventListener('click', () => { //Слушатель открытия попапа место
+  openPopup(popupMesto);
+  enableValidation(config);
+});
 closeProfileInfoButton.addEventListener('click', () => closePopup(popupProfile)); //Слушатель закрытия попапа профиль
-addMestoButton.addEventListener('click', () => openPopup(popupMesto)); //Слушатель открытия попапа место
 popupCloseMesto.addEventListener('click', () => closePopup(popupMesto)); //Слушатель закрытия попапа место
 closePopapImage.addEventListener('click', () => closePopup(popupImage)); //Слушатель закрытия попапа просмотра изображения карточки
 popupProfile.addEventListener('submit', formSubmitHandlerProfile); //Слушатель отправки формы профиль
