@@ -74,6 +74,7 @@ function formSubmitHandlerMesto (evt) {
     evt.preventDefault();
     addCard(listElement, createCard(mestoName.value, mestoLink.value));
     popupMesto.querySelector('.popup__form').reset();
+    toggleButtonState(popupMestoForm, config);
     closePopup(popupMesto);
 };
 //--------Функция открытия попапа профиля
@@ -109,13 +110,9 @@ function clickOverlay(evt) {
 //--------Слушатели
 editProfileInfoButton.addEventListener('click', () => { //Слушатель открытия попапа профиль
   openPopupProfile();
-  enableValidation(config);
   resetValidation(config, popupProfileForm);
 });
-addMestoButton.addEventListener('click', () => { //Слушатель открытия попапа место
-  openPopup(popupMesto);
-  enableValidation(config);
-});
+addMestoButton.addEventListener('click', () => {openPopup(popupMesto)}); //Слушатель открытия попапа место
 closeProfileInfoButton.addEventListener('click', () => closePopup(popupProfile)); //Слушатель закрытия попапа профиль
 popupCloseMesto.addEventListener('click', () => closePopup(popupMesto)); //Слушатель закрытия попапа место
 closePopapImage.addEventListener('click', () => closePopup(popupImage)); //Слушатель закрытия попапа просмотра изображения карточки

@@ -41,6 +41,7 @@ const setEventListeners = (formElement, config) => {
 };
 //--------Функция сброса валидации
 const resetValidation = (config, popupIsOpen) => {
+  toggleButtonState(popupIsOpen, config);
   const inputElement = config.inputSelector;
   const inputList = Array.from(popupIsOpen.querySelectorAll(inputElement));
   inputList.forEach((inputElement) => { 
@@ -55,3 +56,5 @@ const enableValidation = (config) => {
     setEventListeners(formElement, config);
   });
 };
+//--------Функция вызова валидации
+enableValidation(config);
