@@ -1,5 +1,3 @@
-import Card from "./Card.js";
-
 const content = document.querySelector('.content');
 const page = document.querySelector('.page');
 const popupProfile = page.querySelector('.popup_type_profile');
@@ -18,7 +16,7 @@ const profileName = page.querySelector('.profile__name');
 const profileJob = page.querySelector('.profile__job');
 const mestoName = popupMesto.querySelector('.popup__input_field_mesto');
 const mestoLink = popupMesto.querySelector('.popup__input_field_link');
-//const cardTemplate = page.querySelector('.template'); //Находим template
+const cardTemplate = page.querySelector('.template').content; //Находим template
 const listElement = page.querySelector('.elements__list'); //Находим место вставки
 const popupMestoButton = popupMesto.querySelector('.popup__button-save');
 const config = {
@@ -55,6 +53,56 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+
+initialCards.forEach(function(card) {
+  addCard(listElement, createCard(card.name, card.link));
+});
+//--------Функция создания карточки
+function  createCard(name, link) {
+  const element = cardTemplate.cloneNode(true);
+  element.querySelector('.element__caption-text').textContent = name;
+  const elementCard = element.querySelector('.element__card');
+  elementCard.src = link;
+  elementCard.alt = name;
+  //------Открытие попапа просмотра изображения карточки
+  elementCard.addEventListener('click', function() { 
+    openPopup(popupImage);
+    const imageCard = popupImage.querySelector('.popup__image');
+    imageCard.src = link;
+    imageCard.alt = name;
+    popupImage.querySelector('.popup__caption').textContent = name;
+  });
+  //------Ставим/убираем лайк
+  const likeButtonCard = element.querySelector('.element__caption-like');
+  likeButtonCard.addEventListener('click', (evt) => {
+    evt.target.classList.toggle('element__caption-like_aktive');
+  });
+  //------Удаление карточки
+  const deleteButtonCard = element.querySelector('.element__trash');
+  deleteButtonCard.addEventListener('click', () => {
+    deleteButtonCard.closest('.elements__item').remove();
+  });
+  return element;
+};
+//--------Функция добавления карточки в контейнер
+function addCard(listElement, element) {
+  listElement.prepend(element);
+};
+//--------Форма отправки данных пользователя
+function formSubmitHandlerProfile (evt) {
+    evt.preventDefault();
+    profileName.textContent = userName.value;
+    profileJob.textContent = userJob.value;
+    closePopup(popupProfile);
+};
+//--------Форма отправки данных места
+function formSubmitHandlerMesto (evt) {
+    evt.preventDefault();
+    addCard(listElement, createCard(mestoName.value, mestoLink.value));
+    popupMesto.querySelector('.popup__form').reset();
+    toggleButtonState(popupMestoForm, config);
+    closePopup(popupMesto);
+};
 //--------Функция открытия попапа профиля
 function openPopupProfile() {
     openPopup(popupProfile);
@@ -66,14 +114,6 @@ function openPopup(popup) {
     popup.classList.add('popup_opened');
     document.addEventListener('keydown', pressEscape);
     popup.addEventListener('click', clickOverlay);
-};
-//------Функция открытия попапа просмотра изображения карточки
-const openPopupImage = (name, link) => { 
-  openPopup(popupImage);
-  const imageCard = popupImage.querySelector('.popup__image');
-  imageCard.src = link;
-  imageCard.alt = name;
-  popupImage.querySelector('.popup__caption').textContent = name;
 };
 //--------Функция закрытия попапа
 function closePopup(popup) {
@@ -93,40 +133,6 @@ function clickOverlay(evt) {
     closePopup(evt.target);
   };
 };
-//--------Объект настроек карточки
-const data = {
-  cardSelector: '.template',
-  popupImageOpen: openPopupImage
-};
-//--------Функция создания карточки
-function createCard(name, link, data) {
-  const card = new Card(name, link, data);
-  const cardElement = card.generateCard();
-  return cardElement;
-}
-//--------Функция добавления карточки на страницу
-function addCard(item) {
-  listElement.prepend(item);
-}
-//--------Добавляем карточки из массива
-initialCards.forEach((item) => {  
-  addCard(createCard(item.name, item.link, data));
-});
-//--------Форма отправки данных пользователя
-function formSubmitHandlerProfile (evt) {
-  evt.preventDefault();
-  profileName.textContent = userName.value;
-  profileJob.textContent = userJob.value;
-  closePopup(popupProfile);
-};
-//--------Форма отправки данных места
-function formSubmitHandlerMesto (evt) {
-  evt.preventDefault();
-  addCard(createCard(mestoName.value, mestoLink.value, data));
-  popupMesto.querySelector('.popup__form').reset();
-  //toggleButtonState(popupMestoForm, config);
-  closePopup(popupMesto);
-}; 
 //--------Слушатели
 editProfileInfoButton.addEventListener('click', () => { //Слушатель открытия попапа профиль
   openPopupProfile();
