@@ -1,11 +1,9 @@
 import Card from "./Card.js";
+import FormValidator from "./FormValidator.js";
 
-const content = document.querySelector('.content');
 const page = document.querySelector('.page');
 const popupProfile = page.querySelector('.popup_type_profile');
-const popupProfileForm = popupProfile.querySelector('.popup__form');
 const popupMesto = page.querySelector('.popup_type_mesto');
-const popupMestoForm = popupMesto.querySelector('.popup__form');
 const popupImage = page.querySelector('.popup_type_image');
 const closePopapImage = popupImage.querySelector('.popup__button-close');
 const editProfileInfoButton = page.querySelector('.profile__edit-button');
@@ -18,9 +16,7 @@ const profileName = page.querySelector('.profile__name');
 const profileJob = page.querySelector('.profile__job');
 const mestoName = popupMesto.querySelector('.popup__input_field_mesto');
 const mestoLink = popupMesto.querySelector('.popup__input_field_link');
-//const cardTemplate = page.querySelector('.template'); //Находим template
 const listElement = page.querySelector('.elements__list'); //Находим место вставки
-const popupMestoButton = popupMesto.querySelector('.popup__button-save');
 const config = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
@@ -29,6 +25,8 @@ const config = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__input-error_active'
 };
+const profileFormValidation = new FormValidator(config, formTypeProfile);
+const mestoFormValidation = new FormValidator(config, formTypeMesto);
 const initialCards = [
   {
     name: 'Архыз',
@@ -112,6 +110,10 @@ function addCard(item) {
 initialCards.forEach((item) => {  
   addCard(createCard(item.name, item.link, data));
 });
+//--------Валидация формы профиля
+profileFormValidation.enableValidation();
+//--------Валидация формы место
+mestoFormValidation.enableValidation();
 //--------Форма отправки данных пользователя
 function formSubmitHandlerProfile (evt) {
   evt.preventDefault();
@@ -124,13 +126,13 @@ function formSubmitHandlerMesto (evt) {
   evt.preventDefault();
   addCard(createCard(mestoName.value, mestoLink.value, data));
   popupMesto.querySelector('.popup__form').reset();
-  //toggleButtonState(popupMestoForm, config);
+  mestoFormValidation.toggleButtonState();
   closePopup(popupMesto);
-}; 
+};
 //--------Слушатели
 editProfileInfoButton.addEventListener('click', () => { //Слушатель открытия попапа профиль
   openPopupProfile();
-  resetValidation(config, popupProfileForm);
+  profileFormValidation.resetValidation();
 });
 addMestoButton.addEventListener('click', () => {openPopup(popupMesto)}); //Слушатель открытия попапа место
 closeProfileInfoButton.addEventListener('click', () => closePopup(popupProfile)); //Слушатель закрытия попапа профиль
