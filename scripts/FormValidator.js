@@ -2,6 +2,7 @@ export default class FormValidator {
   constructor(config, form) {
     this._config = config;
     this._form = form;
+    this._buttonElement = this._form.querySelector(this._config.submitButtonSelector);
   };
   //--------Метод показа сообщения об ошибке
   _showInputError(inputElement) {
@@ -28,9 +29,8 @@ export default class FormValidator {
   //--------Метод переключения состояния кнопки
   toggleButtonState() {
     const formValid = this._form.checkValidity();
-    const buttonElement = this._form.querySelector(this._config.submitButtonSelector);
-    buttonElement.disabled = !formValid;
-    buttonElement.classList.toggle(this._config.inactiveButtonClass, !formValid);
+    this._buttonElement.disabled = !formValid;
+    this._buttonElement.classList.toggle(this._config.inactiveButtonClass, !formValid);
   };  
   //-------Метод слушателей событий
   _setEventListeners() {
