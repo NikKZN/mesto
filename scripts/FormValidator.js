@@ -4,10 +4,10 @@ export default class FormValidator {
     this._form = form;
   };
   //--------Метод показа сообщения об ошибке
-  _showInputError(inputElement, errorMessage) {
+  _showInputError(inputElement) {
     const errorElement = this._form.querySelector(`.${inputElement.id}-error`);
     inputElement.classList.add(this._config.inputErrorClass);
-    errorElement.textContent = errorMessage;
+    errorElement.textContent = inputElement.validationMessage;
     errorElement.classList.add(this._config.errorClass);
   };
   //--------Метод скрытия сообщения об ошибке
@@ -20,7 +20,7 @@ export default class FormValidator {
   //--------Метод проверки валидности поля
   _checkInputValidity(inputElement) {
     if (!inputElement.validity.valid) {
-      this._showInputError(inputElement, inputElement.validationMessage);
+      this._showInputError(inputElement);
     } else {
       this._hideInputError(inputElement);
     };
