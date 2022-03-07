@@ -1,10 +1,13 @@
 import Card from "./Card.js";
 import FormValidator from "./FormValidator.js";
+import { initialCards } from "./initial-cards.js";
 
 const page = document.querySelector('.page');
 const popupProfile = page.querySelector('.popup_type_profile');
 const popupMesto = page.querySelector('.popup_type_mesto');
 const popupImage = page.querySelector('.popup_type_image');
+const formPopupMesto = popupMesto.querySelector('.popup__form');
+const formPopupProfile = popupProfile.querySelector('.popup__form');
 const closePopapImage = popupImage.querySelector('.popup__button-close');
 const editProfileInfoButton = page.querySelector('.profile__edit-button');
 const closeProfileInfoButton = popupProfile.querySelector('.popup__button-close');
@@ -16,7 +19,10 @@ const profileName = page.querySelector('.profile__name');
 const profileJob = page.querySelector('.profile__job');
 const mestoName = popupMesto.querySelector('.popup__input_field_mesto');
 const mestoLink = popupMesto.querySelector('.popup__input_field_link');
-const listElement = page.querySelector('.elements__list'); //Находим место вставки
+const listElement = page.querySelector('.elements__list');
+const imageCard = popupImage.querySelector('.popup__image');
+const captionCard = popupImage.querySelector('.popup__caption');
+const cardSelector = page.querySelector('.template');
 const config = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
@@ -25,34 +31,9 @@ const config = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__input-error_active'
 };
-const profileFormValidation = new FormValidator(config, formTypeProfile);
-const mestoFormValidation = new FormValidator(config, formTypeMesto);
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
+const profileFormValidation = new FormValidator(config, formPopupProfile);
+const mestoFormValidation = new FormValidator(config, formPopupMesto);
+
 //--------Функция открытия попапа профиля
 function openPopupProfile() {
     openPopup(popupProfile);
@@ -66,12 +47,11 @@ function openPopup(popup) {
     popup.addEventListener('click', clickOverlay);
 };
 //------Функция открытия попапа просмотра изображения карточки
-const openPopupImage = (name, link) => { 
+function openPopupImage(name, link) { 
   openPopup(popupImage);
-  const imageCard = popupImage.querySelector('.popup__image');
   imageCard.src = link;
   imageCard.alt = name;
-  popupImage.querySelector('.popup__caption').textContent = name;
+  captionCard.textContent = name;
 };
 //--------Функция закрытия попапа
 function closePopup(popup) {
@@ -91,24 +71,19 @@ function clickOverlay(evt) {
     closePopup(evt.target);
   };
 };
-//--------Объект настроек карточки
-const data = {
-  cardSelector: '.template',
-  popupImageOpen: openPopupImage
-};
 //--------Функция создания карточки
-function createCard(name, link, data) {
-  const card = new Card(name, link, data);
+function createCard(name, link) {
+  const card = new Card(name, link, cardSelector, openPopupImage);
   const cardElement = card.generateCard();
   return cardElement;
-}
+};
 //--------Функция добавления карточки на страницу
 function addCard(item) {
   listElement.prepend(item);
-}
+};
 //--------Добавляем карточки из массива
 initialCards.forEach((item) => {  
-  addCard(createCard(item.name, item.link, data));
+  addCard(createCard(item.name, item.link));
 });
 //--------Валидация формы профиля
 profileFormValidation.enableValidation();
@@ -124,8 +99,8 @@ function formSubmitHandlerProfile (evt) {
 //--------Форма отправки данных места
 function formSubmitHandlerMesto (evt) {
   evt.preventDefault();
-  addCard(createCard(mestoName.value, mestoLink.value, data));
-  popupMesto.querySelector('.popup__form').reset();
+  addCard(createCard(mestoName.value, mestoLink.value));
+  formPopupMesto.reset();
   mestoFormValidation.toggleButtonState();
   closePopup(popupMesto);
 };
