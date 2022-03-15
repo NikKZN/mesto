@@ -28,13 +28,14 @@ function openPopup(popup) {
     popup.addEventListener('click', clickOverlay);
 };
 */
+/*
 //------Функция открытия попапа просмотра изображения карточки
 function openPopupImage(name, link) { 
   openPopup(popupImage);
   imageCard.src = link;
   imageCard.alt = name;
   captionCard.textContent = name;
-};
+};*/
 /*
 //--------Функция закрытия попапа
 function closePopup(popup) {
@@ -70,8 +71,7 @@ const cardList = new Section({
   listElement
 );
 //--------Открытие и закрытие попапов
-const profilePopup = new Popup(popupProfile);
-profilePopup.
+//const profilePopup = new Popup(popupProfile);
 
 //--------Валидация формы профиля
 profileFormValidation.enableValidation();
