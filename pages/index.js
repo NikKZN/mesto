@@ -1,38 +1,17 @@
-import Card from "./Card.js";
-import FormValidator from "./FormValidator.js";
-import { initialCards } from "./initial-cards.js";
+import Card from "../components/Card.js";
+import FormValidator from "../components/FormValidator.js";
+import { initialCards } from "../scripts/initial-cards.js";
+import Section from "../components/Section.js";
+import { popupProfile, popupMesto, popupImage } from "../utils/constants.js";
+import { formPopupMesto, formPopupProfile } from "../utils/constants.js";
+import { closePopapImage, editProfileInfoButton, closeProfileInfoButton, addMestoButton, popupCloseMesto } from "../utils/constants.js";
+import { userName, userJob, profileName, profileJob, mestoName, mestoLink } from "../utils/constants.js";
+import { listElement, imageCard, captionCard, cardSelector } from "../utils/constants.js";
+import { config } from "../utils/constants.js";
 
-const page = document.querySelector('.page');
-const popupProfile = page.querySelector('.popup_type_profile');
-const popupMesto = page.querySelector('.popup_type_mesto');
-const popupImage = page.querySelector('.popup_type_image');
-const formPopupMesto = popupMesto.querySelector('.popup__form');
-const formPopupProfile = popupProfile.querySelector('.popup__form');
-const closePopapImage = popupImage.querySelector('.popup__button-close');
-const editProfileInfoButton = page.querySelector('.profile__edit-button');
-const closeProfileInfoButton = popupProfile.querySelector('.popup__button-close');
-const addMestoButton = page.querySelector('.profile__add-button');
-const popupCloseMesto = popupMesto.querySelector('.popup__button-close');
-const userName = popupProfile.querySelector('.popup__input_field_name');
-const userJob = popupProfile.querySelector('.popup__input_field_job');
-const profileName = page.querySelector('.profile__name');
-const profileJob = page.querySelector('.profile__job');
-const mestoName = popupMesto.querySelector('.popup__input_field_mesto');
-const mestoLink = popupMesto.querySelector('.popup__input_field_link');
-const listElement = page.querySelector('.elements__list');
-const imageCard = popupImage.querySelector('.popup__image');
-const captionCard = popupImage.querySelector('.popup__caption');
-const cardSelector = page.querySelector('.template');
-const config = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button-save',
-  inactiveButtonClass: 'popup__button-save_inactive',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__input-error_active'
-};
 const profileFormValidation = new FormValidator(config, formPopupProfile);
 const mestoFormValidation = new FormValidator(config, formPopupMesto);
+//console.log(cardSelector)
 
 //--------Функция открытия попапа профиля
 function openPopupProfile() {
@@ -71,20 +50,18 @@ function clickOverlay(evt) {
     closePopup(evt.target);
   };
 };
-//--------Функция создания карточки
-function createCard(name, link) {
-  const card = new Card(name, link, cardSelector, openPopupImage);
-  const cardElement = card.generateCard();
-  return cardElement;
-};
-//--------Функция добавления карточки на страницу
-function addCard(item) {
-  listElement.prepend(item);
-};
-//--------Добавляем карточки из массива
-initialCards.forEach((item) => {  
-  addCard(createCard(item.name, item.link));
-});
+//--------Добавляем массив карточек
+const cardList = new Section({
+  items: initialCards,
+  renderer: (item) => {
+    const card = new Card(item.name, item.link, cardSelector, openPopupImage);
+    const cardElement = card.generateCard();
+    cardList.addItem(cardElement);
+    }  
+  },
+  listElement
+);
+
 //--------Валидация формы профиля
 profileFormValidation.enableValidation();
 //--------Валидация формы место
@@ -115,3 +92,5 @@ popupCloseMesto.addEventListener('click', () => closePopup(popupMesto)); //Сл�
 closePopapImage.addEventListener('click', () => closePopup(popupImage)); //Слушатель закрытия попапа просмотра изображения карточки
 popupProfile.addEventListener('submit', formSubmitHandlerProfile); //Слушатель отправки формы профиль
 popupMesto.addEventListener('submit', formSubmitHandlerMesto); //Слушатель отправки формы место
+
+cardList.renderItems();
