@@ -1,7 +1,8 @@
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
-import { initialCards } from "../scripts/initial-cards.js";
 import Section from "../components/Section.js";
+import Popup from "../components/Popup.js";
+import { initialCards } from "../scripts/initial-cards.js";
 import { popupProfile, popupMesto, popupImage } from "../utils/constants.js";
 import { formPopupMesto, formPopupProfile } from "../utils/constants.js";
 import { closePopapImage, editProfileInfoButton, closeProfileInfoButton, addMestoButton, popupCloseMesto } from "../utils/constants.js";
@@ -19,12 +20,14 @@ function openPopupProfile() {
     userName.value = profileName.textContent;
     userJob.value = profileJob.textContent;
 };
+/*
 //--------Функция открытия попапа
 function openPopup(popup) {
     popup.classList.add('popup_opened');
     document.addEventListener('keydown', pressEscape);
     popup.addEventListener('click', clickOverlay);
 };
+*/
 //------Функция открытия попапа просмотра изображения карточки
 function openPopupImage(name, link) { 
   openPopup(popupImage);
@@ -32,25 +35,30 @@ function openPopupImage(name, link) {
   imageCard.alt = name;
   captionCard.textContent = name;
 };
+/*
 //--------Функция закрытия попапа
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
     document.removeEventListener('keydown', pressEscape);
     popup.removeEventListener('click', clickOverlay);
-};
+};*/
+/*
 //--------Функция закрытия попапа клавишей "Escape"
 function pressEscape(evt) {
   if (evt.key === 'Escape') {
     closePopup(document.querySelector('.popup_opened'));
   };
 };
+*/
+/*
 //--------Функция закрытия попапа кликом на "overlay"
 function clickOverlay(evt) {
   if (evt.target === evt.currentTarget) {
     closePopup(evt.target);
   };
 };
-//--------Добавляем массив карточек
+*/
+//--------Отрисовываем элементы на странице
 const cardList = new Section({
   items: initialCards,
   renderer: (item) => {
@@ -61,6 +69,9 @@ const cardList = new Section({
   },
   listElement
 );
+//--------Открытие и закрытие попапов
+const profilePopup = new Popup(popupProfile);
+profilePopup.
 
 //--------Валидация формы профиля
 profileFormValidation.enableValidation();
@@ -87,9 +98,9 @@ editProfileInfoButton.addEventListener('click', () => { //Слушатель о�
   profileFormValidation.resetValidation();
 });
 addMestoButton.addEventListener('click', () => {openPopup(popupMesto)}); //Слушатель открытия попапа место
-closeProfileInfoButton.addEventListener('click', () => closePopup(popupProfile)); //Слушатель закрытия попапа профиль
-popupCloseMesto.addEventListener('click', () => closePopup(popupMesto)); //Слушатель закрытия попапа место
-closePopapImage.addEventListener('click', () => closePopup(popupImage)); //Слушатель закрытия попапа просмотра изображения карточки
+//closeProfileInfoButton.addEventListener('click', () => closePopup(popupProfile)); //Слушатель закрытия попапа профиль
+//popupCloseMesto.addEventListener('click', () => closePopup(popupMesto)); //Слушатель закрытия попапа место
+//closePopapImage.addEventListener('click', () => closePopup(popupImage)); //Слушатель закрытия попапа просмотра изображения карточки
 popupProfile.addEventListener('submit', formSubmitHandlerProfile); //Слушатель отправки формы профиль
 popupMesto.addEventListener('submit', formSubmitHandlerMesto); //Слушатель отправки формы место
 
