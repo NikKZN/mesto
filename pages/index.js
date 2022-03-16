@@ -77,6 +77,8 @@ const cardList = new Section({
 profileFormValidation.enableValidation();
 //--------Валидация формы место
 mestoFormValidation.enableValidation();
+
+
 //--------Форма отправки данных пользователя
 function formSubmitHandlerProfile (evt) {
   evt.preventDefault();
