@@ -1,11 +1,11 @@
 export default class Card {
-  constructor(name, link, cardSelector, openPopupImage) {
+  constructor(name, link, cardSelector, popupSelector) {
     this._name = name;
     this._link = link;
     this._cardSelector = cardSelector;
-    this._openPopupImage = openPopupImage;
+    this._popupSelector = popupSelector;
   };
-  //--------Метод клонирования 
+  //--------Метод клонирования
   _getTemplate() {
     const cardElement = this._cardSelector
       .content
@@ -23,7 +23,7 @@ export default class Card {
     this._element.querySelector('.element__caption-like')
     .classList.toggle('element__caption-like_aktive');
   };
-  //-------Общий слушатель событий
+  //-------Метод слушателей событий
   _setEventListeners() {
     this._element.querySelector('.element__trash').addEventListener('click', () => {
       this._deleteCard();
@@ -34,7 +34,7 @@ export default class Card {
     });
 
     this._element.querySelector('.element__card').addEventListener('click', () => {
-      this._openPopupImage(this._name, this._link);
+      this._popupSelector(this._name, this._link);
     });
   };
   //-------Метод генерации карточки
