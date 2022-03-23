@@ -1,35 +1,36 @@
 export default class Popup {
   constructor(popupSelector) {
     this._popupSelector = popupSelector;
-  }
-
+    this._buttonClose = this._popupSelector.querySelector('.popup__button-close');
+  };
+  //--------Метод открытия попапа
   open() {
-    this._popupSelector.classList.add('popup_opened');
-  }
-
+    this.setEventListeners();
+    this._popupSelector.classList.add('popup_opened');       
+  };
+  //--------Метод закрытия попапа
   close() {
+    document.removeEventListener('keydown', this._handleEscClose);
+    document.removeEventListener('click', this._clickOverlay);
+    this._buttonClose.removeEventListener('click', () => this.close());
     this._popupSelector.classList.remove('popup_opened');
-  }
-
-  _clickOverlay(evt) {
+  };
+  //--------Метод закрытия попапа кликом на оверлэй
+  _clickOverlay = (evt) => {
     if (evt.target === evt.currentTarget) {
-      closePopup(evt.target);
+      this.close();
     };
   };
-
-  _pressEscape(evt) {
+  //--------Метод закрытия попапа клавишей Esc
+  _handleEscClose = (evt) => {
     if (evt.key === 'Escape') {
-      closePopup(document.querySelector('.popup_opened'));
+      this.close();
     };
   };
-
-  _handleEscClose() {
-    this._popupSelector.addEventListener('keydown', this._clickOverlay);
-  }
-
+  //--------Метод слушателей закрытия попапа
   setEventListeners() {
-    const buttonClose = this._popupSelector.querySelector('.popup__button-close');
-    buttonClose.addEventListener('click', () => close(this._popupSelector));
-    this._popupSelector.addEventListener('click', this._pressEscape);
-  }
-}
+    this._buttonClose.addEventListener('click', () => this.close());
+    this._popupSelector.addEventListener('click', this._clickOverlay);
+    document.addEventListener('keydown', this._handleEscClose);
+  };
+};
