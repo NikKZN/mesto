@@ -8,9 +8,9 @@ export default class PopupWithImage extends Popup {
   };
   //--------Метод открытия попапа с картинкой 
   open(name, link) {
-    super.open();  
     this._imageCard.src = link;
     this._imageCard.alt = name;
-    this._captionCard.textContent = name;    
+    this._captionCard.textContent = name;
+    super.open();
   };
 };
