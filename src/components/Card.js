@@ -1,9 +1,9 @@
 export default class Card {
-  constructor(name, link, cardSelector, popupSelector) {
+  constructor(name, link, cardSelector, handlePopupOpen) {
     this._name = name;
     this._link = link;
     this._cardSelector = cardSelector;
-    this._popupSelector = popupSelector;
+    this._handlePopupOpen = handlePopupOpen;
   };
   //--------Метод клонирования
   _getTemplate() {
@@ -17,6 +17,7 @@ export default class Card {
   //--------Метод удаления карточки
   _deleteCard() {
     this._element.remove();
+    this._element = null;
   };
   //-------Метод постановки/снятия лайка
   _like() {
@@ -34,7 +35,7 @@ export default class Card {
     });
 
     this._element.querySelector('.element__card').addEventListener('click', () => {
-      this._popupSelector(this._name, this._link);
+      this._handlePopupOpen(this._name, this._link);
     });
   };
   //-------Метод генерации карточки

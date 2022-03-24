@@ -78,15 +78,15 @@ const popupProfileWithForm = new PopupWithForm(
 
 //--------Слушатель открытия попапа Профиль
 editProfileInfoButton.addEventListener('click', () => { 
-  popupProfileWithForm.open();
   const userData = userInfo.getUserInfo();
   userName.value = userData.name;
   userJob.value = userData.job;
   profileFormValidation.resetValidation();
+  popupProfileWithForm.open();
 });
 
 //--------Слушатель открытия попапа Место
 addMestoButton.addEventListener('click', () => {
-  popupMestoWithForm.open();
   mestoFormValidation.toggleButtonState();
+  popupMestoWithForm.open();
 });
