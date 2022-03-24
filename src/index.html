@@ -2,7 +2,6 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="pages/index.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Николай Петровский">
   <title>Mesto</title>
@@ -11,13 +10,13 @@
   <div class="page">
     
     <header class="header page__header">
-      <img class="header__logo" src="./images/header/header-logo.svg" alt="Логотип Mesto, подпись Россия.">
+      <img class="header__logo" src="<%=require('./images/header/header-logo.svg')%>" alt="Логотип Mesto, подпись Россия.">
     </header>
     
     <main class="content">
       <section class="profile content__profile">
         <div class="profile__box">
-          <img class="profile__avatar" src="./images/profile/Kusto.png" alt="Аватар, добавленный пользователем.">
+          <img class="profile__avatar" src="<%=require('./images/profile/Kusto.png')%>" alt="Аватар, добавленный пользователем.">
           <div class="profile__info">
             <div class="profile__box-name">
               <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -86,8 +85,6 @@
         </li>
     </template>
   </div>
- 
-  <script type="module" src="./pages/index.js"></script>
   
 </body>
 </html>
