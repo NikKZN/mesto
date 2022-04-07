@@ -1,21 +1,16 @@
-/*
-const result = res => {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Ошибка: ${res.status}`);
-};*/
+
 
 const result = res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
 
 export default class Api {
-  constructor(settings) {
-    this._settings = settings;
+  constructor({ baseUrl, headers }) {
+    this._baseUrl = baseUrl;
+    this._headers = headers;
   };
   //---Загрузка информации о пользователе с сервера
   getUserInfo() {
-    return fetch(`${this._settings.baseUrl}/users/me`, {
-      headers: this._settings.headers
+    return fetch(`${this._baseUrl}/users/me`, {
+      headers: this._headers
     })
     .then(result)
     .catch(console.log)
@@ -23,8 +18,8 @@ export default class Api {
   
   //---Загрузка карточек с сервера
   getInitialCards() {
-    return fetch(`${this._settings.baseUrl}/cards`, {
-      headers: this._settings.headers
+    return fetch(`${this._baseUrl}/cards`, {
+      headers: this._headers
     })
     .then(result)
     .catch(console.log)
@@ -32,9 +27,9 @@ export default class Api {
   
   //---Редактирование профиля
   setUserInfo(name, about) {
-    return fetch(`${this._settings.baseUrl}/users/me`, {
+    return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
-      headers: this._settings.headers,
+      headers: this._headers,
       body: JSON.stringify({
         name,
         about
@@ -43,21 +38,24 @@ export default class Api {
     .then(result)
     .catch(console.log);
   }
-  /*
+  
   //---Добавление новой карточки
-  createCard(name, link) {
-    return fetch(`${this._settings.baseUrl}/cards`, {
+  addCard(name, link) {
+    return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
-      headers: this._settings.headers,
+      headers: this._headers,
       body: JSON.stringify({
         name,
         link
       })
     })
-    .then(result); 
+    .then(result)
+    .catch(console.log); 
   }
+
+
   //---Отображение количества лайков карточки
-  */
+  
 }
 
 

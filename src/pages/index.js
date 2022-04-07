@@ -25,13 +25,6 @@ import {
   config,
 } from "../utils/constants.js";
 
-//console.log(api.getInitialCards())
-//console.log(api.getUserInfo())
-//console.log(api.setUserInfo('ggg', 'fff'))
-//console.log(api.createCard('fff', 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'))
-
-
-
 //--------Константы валидации
 const profileFormValidation = new FormValidator(config, formPopupProfile);
 const mestoFormValidation = new FormValidator(config, formPopupMesto);
@@ -49,49 +42,38 @@ const popupCardImage = new PopupWithImage(popupImage);
 export const popupConfirmDelete = new PopupConfirmDelete(popupConfirm);
 popupConfirmDelete.setEventListeners();
 
-//--------Загрузка карточек с сервера
-api.getInitialCards()
-  .then(res => {
-    const section = new Section({
-      items: res,
-      renderer: (item) => {
-        section.addItem(createCard(item.name, item.link));
-      }
-    },
-    listElement
-  );
-  section.renderItems();
-  })
-/*
-//--------Создание класса секции карточек
-const section = new Section({
-    items: initialCards,
-    renderer: (item) => {
-      //section.addItem(createCard(item.name, item.link));
-    }
-  },
-  listElement
-);
-section.renderItems();
-*/
-
-
 //--------Функция создания карточки
-function createCard(name, link) {
-  return new Card(name, link, cardSelector,
+function createCard(name, link, likes) {
+  return new Card(name, link, likes, cardSelector,
     (name, link) => {
       popupCardImage.open(name, link);
     }
   ).generateCard();
 };
 
+//--------Создание класса секции карточек
+const section = new Section({ items: [], renderer: createCard },
+listElement
+);
 
+//--------Загрузка карточек с сервера
+api.getInitialCards()
+  .then(res => {
+    res.reverse().forEach(data => {
+      const card = createCard(data.name, data.link, data.likes)
+      section.addItem(card)
+    })
+  })
 
 //--------Создание класса попапа Место
 const popupMestoWithForm = new PopupWithForm(
   popupMesto,
   (data) => {
-    section.addItem(createCard(data.mesto, data.link));
+    api.addCard(data.mesto, data.link)
+      .then(res => {
+        const card = createCard(res.name, res.link, res.likes)
+        section.addItem(card);
+      })
   }
 );
 
@@ -101,15 +83,16 @@ const userInfo = new UserInfo(profileInfo);
 //--------Создание класса попапа Профиль
 const popupProfileWithForm = new PopupWithForm(
   popupProfile,
-  (data) => {
-    api.setUserInfo(data.name, data.about)
-    userInfo.setUserInfo(data)
+  (res) => {
+    api.setUserInfo(res.name, res.about)
+    userInfo.setUserInfo(res.name, res.about)
   }
 );
 
+//--------Получаем инфо пользователя с сервера
 api.getUserInfo()
-  .then(data => {
-    userInfo.setUserInfo(data)
+  .then(res => {
+    userInfo.setUserInfo(res.name, res.about)
   })
 
 //--------Слушатель открытия попапа Профиль
