@@ -1,3 +1,5 @@
+import { popupConfirmDelete } from "../pages/index.js";
+
 export default class Card {
   constructor(name, link, cardSelector, handlePopupOpen) {
     this._name = name;
@@ -27,6 +29,7 @@ export default class Card {
   //-------Метод слушателей событий
   _setEventListeners() {
     this._element.querySelector('.element__trash').addEventListener('click', () => {
+      popupConfirmDelete.open();
       this._deleteCard();
     });
 

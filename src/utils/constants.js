@@ -1,6 +1,7 @@
 export const popupProfile = document.querySelector('.popup_type_profile');
 export const popupMesto = document.querySelector('.popup_type_mesto');
 export const popupImage = document.querySelector('.popup_type_image');
+export const popupConfirm = document.querySelector('.popup_type_confirm');
 export const formPopupMesto = popupMesto.querySelector('.popup__form');
 export const formPopupProfile = popupProfile.querySelector('.popup__form');
 export const closePopapImage = popupImage.querySelector('.popup__button-close');
@@ -10,11 +11,12 @@ export const userName = popupProfile.querySelector('.popup__input_field_name');
 export const userJob = popupProfile.querySelector('.popup__input_field_job');
 export const listElement = document.querySelector('.elements__list');
 export const cardSelector = document.querySelector('.template');
+//port const buttonDelete = cardSelector.querySelector('.element__trash');
 
 //--------Объект с селекторами информации пользователя
 export const profileInfo = {
   name: '.profile__name',
-  job: '.profile__job'
+  about: '.profile__job'
 };
 
 //--------Объект настроек валидации
