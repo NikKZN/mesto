@@ -12,9 +12,12 @@ import {
   popupMesto,
   popupImage,
   popupConfirm,
+  popupAvatar,
+  formPopupAvatar,
   formPopupMesto,
   formPopupProfile,
   editProfileInfoButton,
+  editAvatarButton,
   addMestoButton,
   userName,
   userJob,
@@ -29,15 +32,19 @@ let userId;
 //--------Получаем инфо пользователя с сервера
 api.getUserInfo()
   .then(res => {
+    console.log(res)
     userInfo.setUserInfo(res.name, res.about)
+    userInfo.setUserAvatar(res.avatar)
     userId = res._id;
   });
 
 //--------Валидация
 const profileFormValidation = new FormValidator(config, formPopupProfile);
 const mestoFormValidation = new FormValidator(config, formPopupMesto);
+const avatarFormValidation = new FormValidator(config, formPopupAvatar);
 profileFormValidation.enableValidation();
 mestoFormValidation.enableValidation();
+avatarFormValidation.enableValidation();
 
 //--------Функция создания карточки
 const createCard = (data) => {
@@ -108,16 +115,26 @@ const handleCardFormSubmit = (data) => {
 
 const handleProfileFormSubmit = (res) => {
   api.setUserInfo(res.name, res.about)
-  userInfo.setUserInfo(res.name, res.about)
+  userInfo.setUserInfo(res.name, res.about, res.avatar)
 };
+
+const handleAvatarFormSubmit = (data) => {
+  api.changeUserAvatar(data.link)
+    .then(res => {
+      userInfo.setUserAvatar(res.avatar)
+    })
+}
 
 //--------Создание классов
 const popupMestoWithForm = new PopupWithForm(popupMesto, handleCardFormSubmit);
 const popupProfileWithForm = new PopupWithForm(popupProfile, handleProfileFormSubmit);
+const popupAvatarWithForm = new PopupWithForm(popupAvatar, handleAvatarFormSubmit)
 const popupConfirmDel = new PopupWithForm(popupConfirm);
 const userInfo = new UserInfo(profileInfo);
 const section = new Section({ items: [], renderer: createCard }, listElement);
 const popupCardImage = new PopupWithImage(popupImage);
+
+
 
 //--------Слушатель открытия попапа Профиль
 editProfileInfoButton.addEventListener('click', () => { 
@@ -133,3 +150,8 @@ addMestoButton.addEventListener('click', () => {
   mestoFormValidation.toggleButtonState();
   popupMestoWithForm.open();
 });
+
+//--------Слушатель открытия попапа Аватар
+editAvatarButton.addEventListener('click', () => {
+  popupAvatarWithForm.open();
+})

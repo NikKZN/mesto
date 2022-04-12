@@ -16,7 +16,10 @@
     <main class="content">
       <section class="profile content__profile">
         <div class="profile__box">
-          <img class="profile__avatar" src="<%=require('./images/profile/Kusto.png')%>" alt="Аватар, добавленный пользователем.">
+          <div class="profile__avatar-box">
+            <img class="profile__avatar" src="#" alt="Аватар, добавленный пользователем.">
+            <div class="profile__edit-avatar"></div>
+          </div>
           <div class="profile__info">
             <div class="profile__box-name">
               <h1 class="profile__name"></h1>
@@ -48,6 +51,18 @@
           <input class="popup__input popup__input_field_job" id="job-input" type="text" name="about" value="" placeholder="О себе" minlength="2" maxlength="200" required>
           <span class="popup__input-error job-input-error"></span>
           <button class="popup__button-save" type="submit" aria-label="Сохранить.">Сохранить</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="popup popup_type_avatar">
+      <div class="popup__container-avatar">
+        <button class="popup__button-close" type="button" aria-label="Закрыть окно."></button>
+        <form class="popup__form" novalidate>
+          <h2 class="popup__title">Обновить аватар</h2>
+          <input class="popup__input popup__input_field_avatar" id="link-input" type="url" name="link" value="" placeholder="Ссылка на аватар" required>
+          <span class="popup__input-error link-input-error"></span>
+          <button class="popup__button-save" type="submit" aria-label="Создать.">Сохранить</button>
         </form>
       </div>
     </section>

@@ -1,5 +1,3 @@
-
-
 const result = res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
 
 export default class Api {
@@ -15,7 +13,19 @@ export default class Api {
     .then(result)
     .catch(console.log)
   };
-  
+
+  changeUserAvatar(avatar) {
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({
+        avatar
+      }),          
+    })
+    .then(result)
+    .catch(console.log)
+  }
+
   //---Загрузка карточек с сервера
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
