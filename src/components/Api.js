@@ -53,9 +53,34 @@ export default class Api {
     .catch(console.log); 
   }
 
+  //---Удаление карточки
+  deleteCard(id) {
+    return fetch(`${this._baseUrl}/cards/${id}`, {
+      method: 'DELETE',
+      headers: this._headers     
+    })
+    .then(result)
+    .catch(console.log); 
+  }
 
   //---Отображение количества лайков карточки
+  deleteLike(id) {
+    return fetch(`${this._baseUrl}/cards/${id}/likes`, {
+      method: 'DELETE',
+      headers: this._headers     
+    })
+    .then(result)
+    .catch(console.log);
+  }
   
+  addLike(id) {
+    return fetch(`${this._baseUrl}/cards/${id}/likes`, {
+      method: 'PUT',
+      headers: this._headers     
+    })
+    .then(result)
+    .catch(console.log);
+  }
 }
 
 

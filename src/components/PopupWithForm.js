@@ -32,4 +32,8 @@ export default class PopupWithForm extends Popup {
     this._form.reset();
     this.close();
   };
+  //--------Метод подмены сабмита для удаления карточки
+  changeFormSubmit(newSubmitHandler) {
+    this._formSubmitCallback = newSubmitHandler;
+  }
 };

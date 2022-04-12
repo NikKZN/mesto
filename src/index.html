@@ -77,10 +77,12 @@
     <section class="popup popup_type_confirm">
       <div class="popup__field">
         <button class="popup__button-close" type="button" aria-label="Закрыть окно."></button>
-        <h2 class="popup__title">Вы уверены?</h2>
-        <button class="popup__button-confirm" type="button" aria-label="Да.">Да</button>
+        <form class="popup__form" novalidate>
+          <h2 class="popup__title">Вы уверены?</h2>          
+          <button class="popup__button-save" type="submit" aria-label="Создать.">Да</button>
+        </form>
       </div>
-    </section>    
+    </section>
 
     <template class="template">
         <li class="element elements__item">
