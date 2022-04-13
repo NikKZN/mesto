@@ -1,11 +1,11 @@
 export default class Card {
-  constructor(data, cardSelector, handlePopupOpen, handleDeleteClick, handleLikeClick) {
+  constructor(data, userId, cardSelector, handlePopupOpen, handleDeleteClick, handleLikeClick) {
     this._name = data.name;
     this._link = data.link;
     this._likes = data.likes;
-    this._id = data.id;
-    this._userId = data.userId;
-    this._ownerId = data.ownerId;
+    this._id = data._id;
+    this._ownerId = data.owner._id;
+    this._userId = userId;
     this._cardSelector = cardSelector;
     this._handlePopupOpen = handlePopupOpen;
     this._handleDeleteClick = handleDeleteClick;
@@ -60,6 +60,7 @@ export default class Card {
     this._setEventListeners();  
     this._element.querySelector('.element__card').src = this._link;
     this._element.querySelector('.element__caption-text').textContent = this._name;
+    this._element.querySelector('.element__card').alt = this._name;
     this.likesCount(this._likes);
     
     if(this._ownerId !== this._userId) {

@@ -34,9 +34,6 @@ export default class FormValidator {
   };  
   //-------Метод слушателей событий
   _setEventListeners() {
-    this._form.addEventListener('submit', (evt) => {
-      evt.preventDefault();
-    });
     this.toggleButtonState();
     this._inputList = this._form.querySelectorAll(this._config.inputSelector);
     this._inputList.forEach((inputElement) => {      

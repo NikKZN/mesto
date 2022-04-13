@@ -2,6 +2,7 @@ export default class Popup {
   constructor(popupSelector) {
     this._popupSelector = popupSelector;
     this._buttonClose = this._popupSelector.querySelector('.popup__button-close');
+    this.close = this.close.bind(this);
   };
   //--------Метод открытия попапа
   open() {
@@ -12,7 +13,7 @@ export default class Popup {
   close() {
     document.removeEventListener('keydown', this._handleEscClose);
     document.removeEventListener('click', this._clickOverlay);
-    this._buttonClose.removeEventListener('click', () => this.close());
+    this._buttonClose.removeEventListener('click', this.close);
     this._popupSelector.classList.remove('popup_opened');
   };
   //--------Метод закрытия попапа кликом на оверлэй
@@ -29,7 +30,7 @@ export default class Popup {
   };
   //--------Метод слушателей закрытия попапа
   setEventListeners() {
-    this._buttonClose.addEventListener('click', () => this.close());
+    this._buttonClose.addEventListener('click', this.close);
     this._popupSelector.addEventListener('click', this._clickOverlay);
     document.addEventListener('keydown', this._handleEscClose);
   };
