@@ -18,7 +18,7 @@ export default class PopupWithForm extends Popup {
   };
   //--------Метод закрытия попапа
   close() {
-    this._form.removeEventListener('submit', this._formSubmit);
+    this._form.reset();
     super.close();
   };
   //--------Метод слушателей событий
@@ -30,8 +30,6 @@ export default class PopupWithForm extends Popup {
   _formSubmit = (evt) => {
     evt.preventDefault();
     this._formSubmitCallback(this._getInputValues());
-    this._form.reset();
-    this.close();
   };
   //--------Метод подмены сабмита для удаления карточки
   changeFormSubmit(newSubmitHandler) {

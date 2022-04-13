@@ -11,8 +11,7 @@ export default class Api {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: this._headers
     })
-    .then(result)
-    .catch(console.log)
+    .then(result)    
   };
 
   //---Смена аватара
@@ -22,10 +21,9 @@ export default class Api {
       headers: this._headers,
       body: JSON.stringify({
         avatar
-      }),          
+      })          
     })
     .then(result)
-    .catch(console.log)
   };
 
   //---Загрузка карточек с сервера
@@ -34,7 +32,6 @@ export default class Api {
       headers: this._headers
     })
     .then(result)
-    .catch(console.log)
   };
   
   //---Редактирование профиля
@@ -48,7 +45,6 @@ export default class Api {
       })      
     })
     .then(result)
-    .catch(console.log);
   };
   
   //---Добавление новой карточки
@@ -62,7 +58,6 @@ export default class Api {
       })
     })
     .then(result)
-    .catch(console.log); 
   };
 
   //---Удаление карточки
@@ -72,7 +67,6 @@ export default class Api {
       headers: this._headers     
     })
     .then(result)
-    .catch(console.log); 
   };
 
   //---Отображение количества лайков карточки
@@ -82,7 +76,6 @@ export default class Api {
       headers: this._headers     
     })
     .then(result)
-    .catch(console.log);
   };
    
   addLike(id) {
@@ -91,7 +84,6 @@ export default class Api {
       headers: this._headers     
     })
     .then(result)
-    .catch(console.log);
   };
 };
 
