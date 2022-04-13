@@ -32,15 +32,14 @@ export default class Card {
   isLiked() {
     const userPutLike = this._likes.find(user => user._id === this._userId);
 
-    return userPutLike
-  }
+    return userPutLike;
+  };
   
   likesCount(newLikes) {
     this._likes = newLikes;
     const likesCountEl = this._element.querySelector('.element__caption-count');
     likesCountEl.textContent = this._likes.length;
-
-    const likeElement = this._element.querySelector('.element__caption-like')
+    const likeElement = this._element.querySelector('.element__caption-like');
     if(this.isLiked()) {
       likeElement.classList.add('element__caption-like_aktive');      
     } else {

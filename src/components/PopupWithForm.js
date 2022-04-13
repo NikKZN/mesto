@@ -6,6 +6,7 @@ export default class PopupWithForm extends Popup {
     this._formSubmitCallback = formSubmitCallback;
     this._form = this._popupSelector.querySelector('.popup__form');
     this._inputs = this._popupSelector.querySelectorAll('.popup__input');
+    this._popupButtonSave = this._form.querySelector('.popup__button-save')
   };
   //--------Метод сбора данных полей формы
   _getInputValues() {
@@ -35,5 +36,9 @@ export default class PopupWithForm extends Popup {
   //--------Метод подмены сабмита для удаления карточки
   changeFormSubmit(newSubmitHandler) {
     this._formSubmitCallback = newSubmitHandler;
-  }
+  };
+  //--------Метод обозначения загрузки
+  showLoading(text) {
+    this._popupButtonSave.textContent = text;
+  };
 };

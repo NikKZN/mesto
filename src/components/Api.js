@@ -5,6 +5,7 @@ export default class Api {
     this._baseUrl = baseUrl;
     this._headers = headers;
   };
+
   //---Загрузка информации о пользователе с сервера
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
@@ -14,6 +15,7 @@ export default class Api {
     .catch(console.log)
   };
 
+  //---Смена аватара
   changeUserAvatar(avatar) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
@@ -24,7 +26,7 @@ export default class Api {
     })
     .then(result)
     .catch(console.log)
-  }
+  };
 
   //---Загрузка карточек с сервера
   getInitialCards() {
@@ -33,7 +35,7 @@ export default class Api {
     })
     .then(result)
     .catch(console.log)
-  }
+  };
   
   //---Редактирование профиля
   setUserInfo(name, about) {
@@ -47,7 +49,7 @@ export default class Api {
     })
     .then(result)
     .catch(console.log);
-  }
+  };
   
   //---Добавление новой карточки
   addCard(name, link) {
@@ -61,7 +63,7 @@ export default class Api {
     })
     .then(result)
     .catch(console.log); 
-  }
+  };
 
   //---Удаление карточки
   deleteCard(id) {
@@ -71,7 +73,7 @@ export default class Api {
     })
     .then(result)
     .catch(console.log); 
-  }
+  };
 
   //---Отображение количества лайков карточки
   deleteLike(id) {
@@ -81,8 +83,8 @@ export default class Api {
     })
     .then(result)
     .catch(console.log);
-  }
-  
+  };
+   
   addLike(id) {
     return fetch(`${this._baseUrl}/cards/${id}/likes`, {
       method: 'PUT',
@@ -90,8 +92,8 @@ export default class Api {
     })
     .then(result)
     .catch(console.log);
-  }
-}
+  };
+};
 
 
 export const api = new Api({
@@ -101,4 +103,3 @@ export const api = new Api({
     'Content-Type': 'application/json'
   }
 });
-

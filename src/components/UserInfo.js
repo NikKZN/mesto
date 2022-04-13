@@ -19,7 +19,7 @@ export default class UserInfo {
     this._about.textContent = about;
     //this._avatar.src = avatar;
   };
-
+  //--------Метод добавления аватара
   setUserAvatar(avatar) {
     this._avatar.src = avatar;
   }

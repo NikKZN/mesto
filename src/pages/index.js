@@ -32,7 +32,6 @@ let userId;
 //--------Получаем инфо пользователя с сервера
 api.getUserInfo()
   .then(res => {
-    console.log(res)
     userInfo.setUserInfo(res.name, res.about)
     userInfo.setUserAvatar(res.avatar)
     userId = res._id;
@@ -99,6 +98,7 @@ api.getInitialCards()
 
 //--------Сабмиты
 const handleCardFormSubmit = (data) => {
+  popupMestoWithForm.showLoading('Сохранение...');
   api.addCard(data.mesto, data.link)
     .then(res => {
       const card = createCard({
@@ -114,30 +114,30 @@ const handleCardFormSubmit = (data) => {
 };
 
 const handleProfileFormSubmit = (res) => {
-  api.setUserInfo(res.name, res.about)
-  userInfo.setUserInfo(res.name, res.about, res.avatar)
+  popupProfileWithForm.showLoading('Сохранение...');
+  api.setUserInfo(res.name, res.about);
+  userInfo.setUserInfo(res.name, res.about, res.avatar);
 };
 
 const handleAvatarFormSubmit = (data) => {
+  popupAvatarWithForm.showLoading('Сохранение...');
   api.changeUserAvatar(data.link)
     .then(res => {
       userInfo.setUserAvatar(res.avatar)
     })
-}
+};
 
 //--------Создание классов
 const popupMestoWithForm = new PopupWithForm(popupMesto, handleCardFormSubmit);
 const popupProfileWithForm = new PopupWithForm(popupProfile, handleProfileFormSubmit);
-const popupAvatarWithForm = new PopupWithForm(popupAvatar, handleAvatarFormSubmit)
+const popupAvatarWithForm = new PopupWithForm(popupAvatar, handleAvatarFormSubmit);
 const popupConfirmDel = new PopupWithForm(popupConfirm);
 const userInfo = new UserInfo(profileInfo);
 const section = new Section({ items: [], renderer: createCard }, listElement);
 const popupCardImage = new PopupWithImage(popupImage);
 
-
-
 //--------Слушатель открытия попапа Профиль
-editProfileInfoButton.addEventListener('click', () => { 
+editProfileInfoButton.addEventListener('click', () => {
   const userData = userInfo.getUserInfo();
   userName.value = userData.name;
   userJob.value = userData.about;
@@ -153,5 +153,6 @@ addMestoButton.addEventListener('click', () => {
 
 //--------Слушатель открытия попапа Аватар
 editAvatarButton.addEventListener('click', () => {
+  avatarFormValidation.resetValidation();
   popupAvatarWithForm.open();
 })
