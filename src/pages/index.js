@@ -29,13 +29,14 @@ import {
 
 let userId;
 
-//--------Получаем инфо пользователя с сервера
-api.getUserInfo()
+Promise.all([api.getUserInfo(), api.getInitialCards()])
   .then(res => {
-    userInfo.setUserInfo(res.name, res.about)
-    userInfo.setUserAvatar(res.avatar)
-    userId = res._id;
-  });
+    userInfo.setUserInfo(res[0].name, res[0].about)
+    userInfo.setUserAvatar(res[0].avatar)
+    userId = res[0]._id;
+    section.renderItems(res[1]);
+  })
+  .catch(console.log)  
 
 //--------Валидация
 const profileFormValidation = new FormValidator(config, formPopupProfile);
@@ -49,6 +50,7 @@ avatarFormValidation.enableValidation();
 const createCard = (data) => {
   const card = new Card(
     data,
+    userId,
     cardSelector,
     (name, link) => {
       popupCardImage.open(name, link);
@@ -56,11 +58,16 @@ const createCard = (data) => {
     (id) => {
       popupConfirmDel.open();
       popupConfirmDel.changeFormSubmit(() => {
+        popupConfirmDel.showLoading('Удаление...');
         api.deleteCard(id)
           .then(() => {
             card.deleteCard();
             popupConfirmDel.close();
           })
+          .catch(console.log)
+          .finally(() => {
+            popupConfirmDel.showLoading('Да');
+          });
       })
     },
     (id) => {
@@ -68,48 +75,28 @@ const createCard = (data) => {
         api.deleteLike(id)
         .then(res => {
           card.likesCount(res.likes)
-        }) 
+        })
+        .catch(console.log) 
       } else {
         api.addLike(id)
         .then(res => {
           card.likesCount(res.likes)
         })
+        .catch(console.log)
       }      
     }  
   )
   return card.generateCard();
 };
 
-//--------Загрузка карточек с сервера
-api.getInitialCards()
-  .then(res => {
-    res.reverse().forEach(data => {
-      const card = createCard({
-        name: data.name,
-        link: data.link,
-        likes: data.likes,
-        id: data._id,
-        userId: userId,
-        ownerId: data.owner._id
-      })
-      section.addItem(card)
-    })
-  })
-
 //--------Сабмиты
 const handleCardFormSubmit = (data) => {
   popupMestoWithForm.showLoading('Сохранение...');
   api.addCard(data.mesto, data.link)
     .then(res => {
-      const card = createCard({
-        name: res.name,
-        link: res.link,
-        likes: res.likes,
-        id: res._id,
-        userId: userId,
-        ownerId: res.owner._id
-      })
+      const card = createCard(res)
       section.addItem(card);
+      popupMestoWithForm.close();
     })
     .catch(console.log)
     .finally(() => {
@@ -120,18 +107,22 @@ const handleCardFormSubmit = (data) => {
 const handleProfileFormSubmit = (res) => {
   popupProfileWithForm.showLoading('Сохранение...');
   api.setUserInfo(res.name, res.about)
+    .then(res => {
+      userInfo.setUserInfo(res.name, res.about);
+      popupProfileWithForm.close();
+    })
     .catch(console.log)
     .finally(() => {
       popupProfileWithForm.showLoading('Сохранить');
     });
-  userInfo.setUserInfo(res.name, res.about, res.avatar);
 };
 
 const handleAvatarFormSubmit = (data) => {
   popupAvatarWithForm.showLoading('Сохранение...');
   api.changeUserAvatar(data.link)
     .then(res => {
-      userInfo.setUserAvatar(res.avatar)
+      userInfo.setUserAvatar(res.avatar);
+      popupAvatarWithForm.close();
     })
     .catch(console.log)
     .finally(() => {
@@ -145,7 +136,11 @@ const popupProfileWithForm = new PopupWithForm(popupProfile, handleProfileFormSu
 const popupAvatarWithForm = new PopupWithForm(popupAvatar, handleAvatarFormSubmit);
 const popupConfirmDel = new PopupWithForm(popupConfirm);
 const userInfo = new UserInfo(profileInfo);
-const section = new Section({ items: [], renderer: createCard }, listElement);
+const section = new Section({
+    renderer: (item) => section.addItem(createCard(item))
+  },
+  listElement
+  );
 const popupCardImage = new PopupWithImage(popupImage);
 
 //--------Слушатель открытия попапа Профиль
@@ -167,4 +162,4 @@ addMestoButton.addEventListener('click', () => {
 editAvatarButton.addEventListener('click', () => {
   avatarFormValidation.toggleButtonState();
   popupAvatarWithForm.open();
-})
+});
