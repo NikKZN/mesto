@@ -111,11 +111,19 @@ const handleCardFormSubmit = (data) => {
       })
       section.addItem(card);
     })
+    .catch(console.log)
+    .finally(() => {
+      popupMestoWithForm.showLoading('Создать');
+    });
 };
 
 const handleProfileFormSubmit = (res) => {
   popupProfileWithForm.showLoading('Сохранение...');
-  api.setUserInfo(res.name, res.about);
+  api.setUserInfo(res.name, res.about)
+    .catch(console.log)
+    .finally(() => {
+      popupProfileWithForm.showLoading('Сохранить');
+    });
   userInfo.setUserInfo(res.name, res.about, res.avatar);
 };
 
@@ -125,6 +133,10 @@ const handleAvatarFormSubmit = (data) => {
     .then(res => {
       userInfo.setUserAvatar(res.avatar)
     })
+    .catch(console.log)
+    .finally(() => {
+      popupAvatarWithForm.showLoading('Сохранить');
+    });
 };
 
 //--------Создание классов
@@ -153,6 +165,6 @@ addMestoButton.addEventListener('click', () => {
 
 //--------Слушатель открытия попапа Аватар
 editAvatarButton.addEventListener('click', () => {
-  avatarFormValidation.resetValidation();
+  avatarFormValidation.toggleButtonState();
   popupAvatarWithForm.open();
 })
